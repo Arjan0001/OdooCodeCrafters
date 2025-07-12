@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StackIt - Q&A Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <h1>StackIt</h1>
+            </div>
+            
+            <div class="header-controls">
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Search questions..." class="search-input">
+                    <button class="search-btn"><i class="fas fa-search"></i></button>
+                </div>
+                
+                <div class="filter-dropdown">
+                    <select id="filterSelect" class="filter-select">
+                        <option value="newest">Newest</option>
+                        <option value="unanswered">Unanswered</option>
+                        <option value="popular">Popular</option>
+                    </select>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="notification-btn" id="notificationBtn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    
+                    <div class="user-menu" id="userMenu">
+                        <button class="avatar-btn" id="avatarBtn">
+                            <i class="fas fa-user-circle"></i>
+                        </button>
+                        <div class="dropdown-menu" id="dropdownMenu">
+                            <a href="#" id="profileLink">Profile</a>
+                            <a href="#" id="settingsLink">Settings</a>
+                            <a href="#" id="logoutLink">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <div class="mobile-search">
+                <input type="text" placeholder="Search questions..." class="mobile-search-input">
+                <button class="mobile-search-btn"><i class="fas fa-search"></i></button>
+            </div>
+            <div class="mobile-filters">
+                <select class="mobile-filter-select">
+                    <option value="newest">Newest</option>
+                    <option value="unanswered">Unanswered</option>
+                    <option value="popular">Popular</option>
+                </select>
+            </div>
+            <div class="mobile-actions">
+                <button class="mobile-notification-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="mobile-notification-badge">3</span>
+                </button>
+                <a href="#" class="mobile-login-btn" id="mobileLoginBtn">Login</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Welcome Section -->
+            <div class="welcome-section">
+                <h2>Welcome to StackIt</h2>
+                <p>Ask questions, share knowledge, and connect with developers worldwide.</p>
+                <button class="ask-question-btn" id="askQuestionBtn">
+                    <i class="fas fa-plus"></i> Ask Question
+                </button>
+            </div>
+
+            <!-- Questions Section -->
+            <div class="questions-section">
+                <div class="questions-header">
+                    <h3>Recent Questions</h3>
+                    <div class="questions-stats">
+                        <span id="questionCount">0 questions</span>
+                    </div>
+                </div>
+                
+                <div class="questions-container" id="questionsContainer">
+                    <!-- Questions will be loaded here -->
+                </div>
+                
+                <!-- Loading State -->
+                <div class="loading-state" id="loadingState">
+                    <div class="spinner"></div>
+                    <p>Loading questions...</p>
+                </div>
+                
+                <!-- Empty State -->
+                <div class="empty-state" id="emptyState" style="display: none;">
+                    <i class="fas fa-question-circle"></i>
+                    <h4>No questions yet</h4>
+                    <p>Be the first to ask a question!</p>
+                    <button class="ask-question-btn">Ask Question</button>
+                </div>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="pagination" id="pagination">
+                <button class="pagination-btn" id="prevBtn" disabled>
+                    <i class="fas fa-chevron-left"></i> Previous
+                </button>
+                <div class="pagination-numbers" id="paginationNumbers">
+                    <!-- Page numbers will be generated here -->
+                </div>
+                <button class="pagination-btn" id="nextBtn">
+                    Next <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Login to StackIt</h3>
+                <button class="modal-close" id="loginModalClose">&times;</button>
+            </div>
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn-primary">Login</button>
+            </form>
+            <div class="modal-footer">
+                <p>Don't have an account? <a href="#" id="showSignupLink">Sign up</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div class="modal" id="signupModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create Account</h3>
+                <button class="modal-close" id="signupModalClose">&times;</button>
+            </div>
+            <form class="signup-form" id="signupForm">
+                <div class="form-group">
+                    <label for="signupUsername">Username</label>
+                    <input type="text" id="signupUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" required>
+                </div>
+                <button type="submit" class="btn-primary">Create Account</button>
+            </form>
+            <div class="modal-footer">
+                <p>Already have an account? <a href="#" id="showLoginLink">Login</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ask Question Modal -->
+    <div class="modal" id="askQuestionModal">
+        <div class="modal-content large-modal">
+            <div class="modal-header">
+                <h3>Ask a Question</h3>
+                <button class="modal-close" id="askQuestionModalClose">&times;</button>
+            </div>
+            <form class="ask-question-form" id="askQuestionForm">
+                <div class="form-group">
+                    <label for="questionTitle">Title</label>
+                    <input type="text" id="questionTitle" placeholder="What's your question? Be specific." required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="questionDescription">Description</label>
+                    <div class="rich-text-toolbar">
+                        <button type="button" class="toolbar-btn" data-command="bold">
+                            <i class="fas fa-bold"></i>
+                        </button>
+                        <button type="button" class="toolbar-btn" data-command="italic">
+                            <i class="fas fa-italic"></i>
+                        </button>
+                        <button type="button" class="toolbar-btn" data-command="insertUnorderedList">
+                            <i class="fas fa-list-ul"></i>
+                        </button>
+                        <button type="button" class="toolbar-btn" data-command="createLink">
+                            <i class="fas fa-link"></i>
+                        </button>
+                        <button type="button" class="toolbar-btn" data-command="insertImage">
+                            <i class="fas fa-image"></i>
+                        </button>
+                    </div>
+                    <div class="rich-text-editor" id="questionDescription" contenteditable="true" placeholder="Describe your question in detail..."></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="questionTags">Tags (comma-separated)</label>
+                    <input type="text" id="questionTags" placeholder="javascript, react, web-development">
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" id="cancelQuestionBtn">Cancel</button>
+                    <button type="submit" class="btn-primary">Submit Question</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Question Detail Modal -->
+    <div class="modal" id="questionDetailModal">
+        <div class="modal-content large-modal">
+            <div class="modal-header">
+                <div class="breadcrumb">
+                    <a href="#" id="backToHome">Home</a>
+                    <span>/</span>
+                    <span id="questionBreadcrumb">Question</span>
+                </div>
+                <button class="modal-close" id="questionDetailModalClose">&times;</button>
+            </div>
+            <div class="question-detail-content" id="questionDetailContent">
+                <!-- Question details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Debug Panel (remove in production) -->
+    <div id="debugPanel" style="position: fixed; bottom: 10px; right: 10px; background: #333; color: white; padding: 10px; border-radius: 5px; font-size: 12px; max-width: 300px; z-index: 9999;">
+        <h4>Debug Panel</h4>
+        <button onclick="app.testLogin()" style="margin: 2px; padding: 5px;">Test Login</button>
+        <button onclick="app.testSignup()" style="margin: 2px; padding: 5px;">Test Signup</button>
+        <button onclick="app.testQuestions()" style="margin: 2px; padding: 5px;">Test Questions</button>
+        <button onclick="app.createDemoUser()" style="margin: 2px; padding: 5px; background: #28a745;">Create Demo User</button>
+        <button onclick="app.showBackendInfo()" style="margin: 2px; padding: 5px; background: #007bff;">Backend Info</button>
+        <button onclick="app.tryDemoCredentials()" style="margin: 2px; padding: 5px; background: #ffc107;">Try Demo Login</button>
+        <button onclick="app.testQuestionSubmission()" style="margin: 2px; padding: 5px; background: #dc3545;">Test Question Submit</button>
+        <button onclick="app.checkUserData()" style="margin: 2px; padding: 5px; background: #6f42c1;">Check User Data</button>
+        <button onclick="app.testUISubmission()" style="margin: 2px; padding: 5px; background: #20c997;">Test UI Submit</button>
+        <button onclick="app.refreshToken()" style="margin: 2px; padding: 5px; background: #fd7e14;">Refresh Token</button>
+        <button onclick="app.extractUserFromToken()" style="margin: 2px; padding: 5px; background: #e83e8c;">Extract User ID</button>
+        <button onclick="app.testExactPayload()" style="margin: 2px; padding: 5px; background: #6c757d;">Test Exact Payload</button>
+        <button onclick="app.refreshQuestions()" style="margin: 2px; padding: 5px; background: #17a2b8;">Refresh Questions</button>
+        <button onclick="app.testAnswerSubmission()" style="margin: 2px; padding: 5px; background: #28a745;">Test Answer Submit</button>
+        <button onclick="app.testAnswerEndpoints()" style="margin: 2px; padding: 5px; background: #6f42c1;">Test Answer Endpoints</button>
+        <button onclick="app.testAnswerSubmissionWithWorkingEndpoint()" style="margin: 2px; padding: 5px; background: #20c997;">Test Answer with Working Endpoint</button>
+        <button onclick="app.quickAnswerTest()" style="margin: 2px; padding: 5px; background: #fd7e14;">Quick Answer Test</button>
+        <div id="debugOutput" style="margin-top: 10px; font-size: 10px; max-height: 100px; overflow-y: auto;"></div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+</body>
+</html> 
